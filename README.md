@@ -10,7 +10,7 @@ A package to convert Widget, Local image, Netwok image, Svg file to BitmapDescri
 
 ```dart
 dependencies:
-  marker_icon: ^1.0.0
+  the_widget_marker: ^1.0.0
 ```
 ## Add rounded marker icon with border from network image:
 

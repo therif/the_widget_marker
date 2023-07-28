@@ -1,4 +1,4 @@
-library custom_marker;
+library the_widget_marker;
 
 import 'dart:async';
 import 'dart:io';
@@ -20,19 +20,23 @@ class MarkerIcon {
   }) async {
     final mediaQuery = MediaQuery.of(context);
     // Read SVG file as String
-    String svgString = await DefaultAssetBundle.of(context).loadString(assetName);
+    String svgString =
+        await DefaultAssetBundle.of(context).loadString(assetName);
     // Create DrawableRoot from SVG String
-    final PictureInfo pictureInfo = await vg.loadPicture(SvgStringLoader(svgString), null);
+    final PictureInfo pictureInfo =
+        await vg.loadPicture(SvgStringLoader(svgString), null);
 
     // toPicture() and toImage() don't seem to be pixel ratio aware, so we calculate the actual sizes here
     double devicePixelRatio = mediaQuery.devicePixelRatio;
-    double width = size * devicePixelRatio; // where 32 is your SVG's original width
+    double width =
+        size * devicePixelRatio; // where 32 is your SVG's original width
     double height = size * devicePixelRatio; // same thing
     // Convert to ui.Picture
     // Convert to ui.Image. toImage() takes width and height as parameters
     // you need to find the best size to suit your needs and take into account the
     // screen DPI
-    ui.Image image = await pictureInfo.picture.toImage(width.toInt(), height.toInt());
+    ui.Image image =
+        await pictureInfo.picture.toImage(width.toInt(), height.toInt());
     ByteData? bytes = await image.toByteData(format: ui.ImageByteFormat.png);
     return BitmapDescriptor.fromBytes(bytes!.buffer.asUint8List());
   }
@@ -49,9 +53,14 @@ class MarkerIcon {
     final ui.Codec codec = await ui.instantiateImageCodec(imageUint8List);
     final ui.FrameInfo imageFI = await codec.getNextFrame();
 
-    paintImage(canvas: canvas, rect: Rect.fromLTWH(0, 0, width.toDouble(), height.toDouble()), image: imageFI.image);
+    paintImage(
+        canvas: canvas,
+        rect: Rect.fromLTWH(0, 0, width.toDouble(), height.toDouble()),
+        image: imageFI.image);
 
-    final _image = await pictureRecorder.endRecording().toImage(width.toInt(), (height).toInt());
+    final _image = await pictureRecorder
+        .endRecording()
+        .toImage(width.toInt(), (height).toInt());
     final data = await _image.toByteData(format: ui.ImageByteFormat.png);
     return BitmapDescriptor.fromBytes(data!.buffer.asUint8List());
   }
@@ -80,7 +89,8 @@ class MarkerIcon {
     TextPainter painter = TextPainter(textDirection: TextDirection.ltr);
     painter.text = TextSpan(
       text: text,
-      style: TextStyle(fontSize: fontSize, color: fontColor, fontWeight: fontWeight),
+      style: TextStyle(
+          fontSize: fontSize, color: fontColor, fontWeight: fontWeight),
     );
 
     canvas.clipPath(clipPath);
@@ -92,12 +102,18 @@ class MarkerIcon {
         fit: BoxFit.contain,
         alignment: Alignment.center,
         canvas: canvas,
-        rect: Rect.fromLTWH(0, 0, size.width.toDouble(), size.height.toDouble()),
+        rect:
+            Rect.fromLTWH(0, 0, size.width.toDouble(), size.height.toDouble()),
         image: imageFI.image);
     painter.layout();
-    painter.paint(canvas, Offset((size.width * 0.5) - painter.width * 0.5, (size.height * .5) - painter.height * 0.5));
+    painter.paint(
+        canvas,
+        Offset((size.width * 0.5) - painter.width * 0.5,
+            (size.height * .5) - painter.height * 0.5));
 
-    final _image = await pictureRecorder.endRecording().toImage(size.width.toInt(), (size.height).toInt());
+    final _image = await pictureRecorder
+        .endRecording()
+        .toImage(size.width.toInt(), (size.height).toInt());
     final data = await _image.toByteData(format: ui.ImageByteFormat.png);
     return BitmapDescriptor.fromBytes(data!.buffer.asUint8List());
   }
@@ -117,7 +133,8 @@ class MarkerIcon {
 
     canvas.drawRRect(
         RRect.fromRectAndCorners(
-          Rect.fromLTWH(0.0, 0.0, size.width.toDouble(), size.height.toDouble()),
+          Rect.fromLTWH(
+              0.0, 0.0, size.width.toDouble(), size.height.toDouble()),
           topLeft: radius,
           topRight: radius,
           bottomLeft: radius,
@@ -128,19 +145,26 @@ class MarkerIcon {
     TextPainter painter = TextPainter(textDirection: TextDirection.ltr);
     painter.text = TextSpan(
       text: text,
-      style: TextStyle(fontSize: fontSize, color: fontColor, fontWeight: fontWeight),
+      style: TextStyle(
+          fontSize: fontSize, color: fontColor, fontWeight: fontWeight),
     );
 
     painter.layout();
-    painter.paint(canvas, Offset((size.width * 0.5) - painter.width * 0.5, (size.height * .5) - painter.height * 0.5));
+    painter.paint(
+        canvas,
+        Offset((size.width * 0.5) - painter.width * 0.5,
+            (size.height * .5) - painter.height * 0.5));
 
-    final img = await pictureRecorder.endRecording().toImage(size.width.toInt(), size.height.toInt());
+    final img = await pictureRecorder
+        .endRecording()
+        .toImage(size.width.toInt(), size.height.toInt());
     final data = await img.toByteData(format: ui.ImageByteFormat.png);
 
     return BitmapDescriptor.fromBytes(data!.buffer.asUint8List());
   }
 
-  static Future<BitmapDescriptor> downloadResizePicture({required String url, int imageSize = 50}) async {
+  static Future<BitmapDescriptor> downloadResizePicture(
+      {required String url, int imageSize = 50}) async {
     final File imageFile = await DefaultCacheManager().getSingleFile(url);
     final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
@@ -148,8 +172,12 @@ class MarkerIcon {
     final ui.Codec codec = await ui.instantiateImageCodec(imageUint8List);
     final ui.FrameInfo imageFI = await codec.getNextFrame();
     paintImage(
-        canvas: canvas, rect: Rect.fromLTWH(0, 0, imageSize.toDouble(), imageSize.toDouble()), image: imageFI.image);
-    final _image = await pictureRecorder.endRecording().toImage(imageSize, (imageSize * 1.1).toInt());
+        canvas: canvas,
+        rect: Rect.fromLTWH(0, 0, imageSize.toDouble(), imageSize.toDouble()),
+        image: imageFI.image);
+    final _image = await pictureRecorder
+        .endRecording()
+        .toImage(imageSize, (imageSize * 1.1).toInt());
     final data = await _image.toByteData(format: ui.ImageByteFormat.png);
     return BitmapDescriptor.fromBytes(data!.buffer.asUint8List());
   }
@@ -171,8 +199,9 @@ class MarkerIcon {
 
     //make canvas clip path to prevent image drawing over the circle
     final Path clipPath = Path();
-    clipPath
-        .addRRect(RRect.fromRectAndRadius(Rect.fromLTWH(0, 0, size.toDouble(), size.toDouble()), Radius.circular(100)));
+    clipPath.addRRect(RRect.fromRectAndRadius(
+        Rect.fromLTWH(0, 0, size.toDouble(), size.toDouble()),
+        Radius.circular(100)));
     /* clipPath.addRRect(RRect.fromRectAndRadius(
         Rect.fromLTWH(0, size * 8 / 10, size.toDouble(), size * 3 / 10),
         Radius.circular(100))); */
@@ -198,7 +227,9 @@ class MarkerIcon {
     }
 
     //convert canvas as PNG bytes
-    final _image = await pictureRecorder.endRecording().toImage(size, (size * 1.1).toInt());
+    final _image = await pictureRecorder
+        .endRecording()
+        .toImage(size, (size * 1.1).toInt());
     final data = await _image.toByteData(format: ui.ImageByteFormat.png);
 
     //convert PNG bytes as BitmapDescriptor
@@ -206,13 +237,15 @@ class MarkerIcon {
   }
 
   static Future<BitmapDescriptor> widgetToIcon(GlobalKey globalKey) async {
-    RenderRepaintBoundary boundary = globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary;
+    RenderRepaintBoundary boundary =
+        globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary;
     ui.Image image = await boundary.toImage();
     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     return BitmapDescriptor.fromBytes(byteData!.buffer.asUint8List());
   }
 
-  static Future<BitmapDescriptor> markerFromIcon(IconData icon, Color color, double size) async {
+  static Future<BitmapDescriptor> markerFromIcon(
+      IconData icon, Color color, double size) async {
     final pictureRecorder = ui.PictureRecorder();
     final canvas = Canvas(pictureRecorder);
     final textPainter = TextPainter(textDirection: TextDirection.ltr);

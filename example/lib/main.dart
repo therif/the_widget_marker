@@ -1,4 +1,4 @@
-import 'package:the_widget_marker/marker_icon.dart';
+import 'package:the_widget_marker/the_widget_marker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
             Marker(
               markerId: MarkerId('svgAsset'),
               icon: await MarkerIcon.svgAsset(
-                  assetName: 'example/lib/asset/car.svg',
+                  assetName: 'example/asset/car.svg',
                   context: context,
                   size: 50),
               position: LatLng(35.8400, 50.9391),

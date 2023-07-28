@@ -171,3 +171,6 @@ class MyMarker extends StatelessWidget {
 * downloadResizePictureCircle : a rounded picture(png,jpeg,etc...) icon marker with border from internet.
 
 
+### Notes
+this originally from https://github.com/mmolaei7878/custom_marker
+Because of intl crash ant not update, this is refork and make it work to latest flutter

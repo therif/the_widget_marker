@@ -1,4 +1,4 @@
-import 'package:custom_marker/marker_icon.dart';
+import 'package:the_widget_marker/marker_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -27,7 +27,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GoogleMap(
-        initialCameraPosition: CameraPosition(target: LatLng(32.4279, 53.6880), zoom: 15),
+        initialCameraPosition:
+            CameraPosition(target: LatLng(32.4279, 53.6880), zoom: 15),
         markers: _markers,
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -36,7 +37,10 @@ class _HomePageState extends State<HomePage> {
           _markers.add(
             Marker(
               markerId: MarkerId('svgAsset'),
-              icon: await MarkerIcon.svgAsset(assetName: 'example/lib/asset/car.svg', context: context, size: 50),
+              icon: await MarkerIcon.svgAsset(
+                  assetName: 'example/lib/asset/car.svg',
+                  context: context,
+                  size: 50),
               position: LatLng(35.8400, 50.9391),
             ),
           );
@@ -45,7 +49,9 @@ class _HomePageState extends State<HomePage> {
             Marker(
               markerId: MarkerId('downloadResizePicture'),
               icon: await MarkerIcon.downloadResizePicture(
-                  url: 'https://thegpscoordinates.net/photos/la/tehran_iran_5u679ezi8f.jpg', imageSize: 150),
+                  url:
+                      'https://thegpscoordinates.net/photos/la/tehran_iran_5u679ezi8f.jpg',
+                  imageSize: 150),
               position: LatLng(35.6892, 51.3890),
             ),
           );

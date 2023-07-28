@@ -1,4 +1,4 @@
-import 'package:custom_marker/marker_icon.dart';
+import 'package:the_widget_marker/marker_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -28,7 +28,8 @@ class _WidgetToMarkerState extends State<WidgetToMarker> {
               MyMarker(globalKey),
               Positioned.fill(
                 child: GoogleMap(
-                  initialCameraPosition: CameraPosition(target: LatLng(32.4279, 53.6880), zoom: 15),
+                  initialCameraPosition: CameraPosition(
+                      target: LatLng(32.4279, 53.6880), zoom: 15),
                   markers: _markers,
                 ),
               ),
@@ -49,7 +50,8 @@ class _WidgetToMarkerState extends State<WidgetToMarker> {
               setState(() {});
             },
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
         ),
       ],
     );
